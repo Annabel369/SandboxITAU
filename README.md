@@ -1,5 +1,7 @@
 # O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
+https://devportal.itau.com.br/baas/#/dashboard/b2b-operational
+
 não basta a YubiKey (que faz o papel do certificado mTLS). Você precisa enviar o Token de Acesso (Bearer Token) junto na requisição.
 
 O fluxo que você postou nos JSONs mostra exatamente as duas partes do processo. Vou organizar o que está acontecendo ali para o seu script Python:
