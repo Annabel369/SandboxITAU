@@ -1,3 +1,4 @@
+![Uploading image.png…]()
 # O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
 https://devportal.itau.com.br/baas/#/dashboard/b2b-operational
