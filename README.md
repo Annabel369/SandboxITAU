@@ -1,6 +1,39 @@
 
 # O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
+existe um padrão obrigatório estabelecido pelo Banco Central do Brasil chamado API Pix.
+
+Todas as instituições financeiras (bancos e fintechs) que oferecem contas para empresas (PJ) devem seguir essa padronização. Isso permite que você consulte se um pagamento caiu de duas formas principais:
+1. Como consultar o recebimento via API
+
+Para saber se um Pix foi pago, você geralmente usa dois caminhos técnicos:
+
+    Webhook (Recomendado): O banco envia uma notificação automática para o seu servidor no exato segundo em que o dinheiro cai na conta. É a forma mais eficiente e rápida.
+
+    Endpoint de Consulta (GET /pix): Você faz uma chamada para a API do banco perguntando sobre um pagamento específico (usando o txid ou o e2eid).
+
+        Endpoint comum: GET /pix/{e2eid} ou GET /pix?inicio=...&fim=...
+
+2. Principais Bancos que oferecem a API
+
+A maioria dos grandes bancos e bancos digitais possui portais exclusivos para desenvolvedores onde você pode gerar as credenciais (Client ID, Secret e Certificado TLS):
+Banco	Portal do Desenvolvedor
+Itaú	Itaú Developers
+Banco do Brasil	Developers BB
+Santander	Santander Developers
+Inter	Inter Empresas (API Pix)
+Efí Bank (Gerencianet)	Efí Pay
+Nubank	Nubank For Business
+3. Requisitos para usar
+
+Para implementar essa consulta, você precisará de:
+
+    Conta PJ: A maioria dos bancos só libera a API para contas jurídicas.
+
+    Certificado Digital (mTLS): O Banco Central exige um certificado padrão ICP-Brasil (ou o fornecido pelo banco) para autenticar a conexão.
+
+    Escopos de leitura: Na hora de configurar a API, você deve habilitar o escopo pix.read para poder consultar os recebimentos.
+
 https://devportal.itau.com.br/baas/#/dashboard/b2b-operational
 
 não basta a YubiKey (que faz o papel do certificado mTLS). Você precisa enviar o Token de Acesso (Bearer Token) junto na requisição.
