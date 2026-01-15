@@ -1,5 +1,5 @@
-
-# O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
+# Banco Central que você conecta diretamente para monitorar qualquer conta de qualquer banco. O Banco Central criou o padrão (as regras e os nomes dos endpoints), mas cada banco roda sua própria "instância" dessa API.
+ O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
 existe um padrão obrigatório estabelecido pelo Banco Central do Brasil chamado API Pix.
 
