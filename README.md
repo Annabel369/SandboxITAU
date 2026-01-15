@@ -1,4 +1,4 @@
-![Uploading image.png…]()
+
 # O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
 https://devportal.itau.com.br/baas/#/dashboard/b2b-operational
@@ -26,3 +26,11 @@ Observações Técnicas Importantes
 Próximo Passo
 
 Você já conseguiu carregar o certificado do Itaú para dentro da sua YubiKey usando o yubico-piv-tool ou precisa de ajuda com os comandos para "esconder" o certificado dentro dela?
+
+Instalar as dependências: No terminal do seu servidor/PC, rode:
+
+pip install requests requests-pkcs11
+
+Verificar a YubiKey: Certifique-se de que o certificado do Itaú está no slot de autenticação da chave. O comando pkcs11-tool -O deve listar o seu certificado.
+
+Configurar o ESP32: Certifique-se de que o código do ESP32 tem uma rota para /view_seed que aceita o parâmetro id=0. Se o ESP32 for apenas mostrar a tela, ele não precisa de segurança mTLS, facilitando o seu trabalho.
