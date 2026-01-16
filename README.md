@@ -2,6 +2,8 @@
 1. Preparação do Ambiente Linux
 2. <img width="734" height="408" alt="Screenshot-2026-01-16-04:27:25" src="https://github.com/user-attachments/assets/e18417a0-0d4e-43e4-97cf-acff9930a199" />
 
+<img width="141" height="76" alt="Captura de tela de 2026-01-15 20-24-42" src="https://github.com/user-attachments/assets/d1155b15-e481-4f61-9944-51314491658a" />
+<img width="926" height="600" alt="Captura de tela de 2026-01-16 04-31-04" src="https://github.com/user-attachments/assets/cf5d6a0f-1809-498a-a14c-93b3e8fbb807" />
 
 Primeiro, instalamos as ferramentas de sistema necessárias para lidar com a YubiKey e criptografia.
 Bash
