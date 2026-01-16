@@ -24,6 +24,7 @@ python3 -m venv pix-itau
 
 # Ativar o ambiente (Sempre faça isso antes de programar)
 source pix-itau/bin/activate
+<img width="548" height="287" alt="Screenshot-2026-01-16-04:41:25" src="https://github.com/user-attachments/assets/0ad70a66-2104-477f-b789-d684092748a8" />
 
 3. Instalação das Bibliotecas Python
 
