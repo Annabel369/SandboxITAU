@@ -1,3 +1,103 @@
+🛠️ Tutorial de Configuração: API Pix Itaú (mTLS)
+1. Preparação do Ambiente Linux
+
+Primeiro, instalamos as ferramentas de sistema necessárias para lidar com a YubiKey e criptografia.
+Bash
+
+sudo apt update
+sudo apt install openssl yubico-piv-tool libengine-pkcs11-openssl python3-venv python3-pip
+
+2. Criação do Ambiente Virtual (VENV)
+
+Para não "sujar" o Python do sistema, criamos o ambiente isolado que você mencionou:
+Bash
+
+# Criar a pasta do projeto
+mkdir projeto-pix && cd projeto-pix
+
+# Criar o ambiente virtual
+python3 -m venv pix-itau
+
+# Ativar o ambiente (Sempre faça isso antes de programar)
+source pix-itau/bin/activate
+
+3. Instalação das Bibliotecas Python
+
+Dentro do ambiente ativado (pix-itau), instalamos o que é necessário para as requisições HTTP seguras:
+Bash
+
+pip install requests
+# O requests-pkcs11 é usado quando chamamos a YubiKey direto pelo Python
+pip install requests-pkcs11
+
+🔑 Gestão de Certificados (O Caminho do OpenSSL)
+
+Como a YubiKey deu conflito de memória, seguimos pelo Plano B (OpenSSL), que é mais estável para o seu uso pessoal e para o ESP32.
+Passo 1: Gerar a Chave Privada
+Bash
+
+openssl ecparam -name prime256v1 -genkey -noout -out chave_itau_privada.key
+
+Passo 2: Gerar o CSR (Para enviar ao Itaú)
+
+Este comando cria o arquivo que você vai subir no portal do banco com seu nome:
+Bash
+
+openssl req -new -key chave_itau_privada.key -out pedido_itau.csr -subj "/CN=Amauri Bueno dos Santos/O=DESENVOLVIMENTO PESSOAL/"
+
+Passo 3: Certificado Temporário (Para testes)
+
+Enquanto o Itaú não assina o seu, usamos este para validar o código:
+Bash
+
+openssl req -key chave_itau_privada.key -new -x509 -days 365 -out certificado_temporario.pem -subj "/CN=Amauri Bueno dos Santos/"
+
+🐍 O Script Python Final (obter_token_itau.py)
+
+Este é o resumo do código que você validou e que retornou o erro 401 (Sucesso de conexão!):
+Python
+
+import requests
+import json
+
+# Arquivos gerados no passo anterior
+CERT = "certificado_temporario.pem" 
+KEY = "chave_itau_privada.key"
+
+URL = "https://sts.itau.com.br/api/oauth/token"
+
+payload = {
+    'grant_type': 'client_credentials',
+    'client_id': '287c0549-b649-34cc-8f43-0b1072dbe8eb',
+    'client_secret': 'bd6c1adf-4e3c-4078-a369-f7c378896062'
+}
+
+headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'x-itau-flowID': "1",
+    'x-itau-correlationID': "2"
+}
+
+try:
+    response = requests.post(URL, headers=headers, data=payload, cert=(CERT, KEY))
+    print(f"Status: {response.status_code}")
+    print(response.json())
+except Exception as e:
+    print(f"Erro: {e}")
+
+📋 Resumo de Arquivos Importantes
+Arquivo	Função
+chave_itau_privada.key	Sua Chave Mestra. Não perca e não mostre a ninguém.
+pedido_itau.csr	O arquivo que você vai colar no portal do Itaú Developers.
+certificado_temporario.pem	Usado para testar o código enquanto o banco não libera o oficial.
+itau_oficial.pem	(Futuro) O arquivo que o banco vai te dar para baixar.
+🚀 Próximos Passos (Quando o Sandbox voltar)
+
+    Ativar o VENV: source pix-itau/bin/activate
+
+    Enviar o CSR: Pegar o texto do pedido_itau.csr e enviar no portal.
+
+    Substituir: Quando o Itaú te der o certificado, salve-o e aponte o script Python para ele.
 # Banco Central que você conecta diretamente para monitorar qualquer conta de qualquer banco. O Banco Central criou o padrão (as regras e os nomes dos endpoints), mas cada banco roda sua própria "instância" dessa API.
  O seu ESP32 não precisa entender nada de YubiKey ou JSON complexo do Itaú. Ele só precisa de um servidor Web bem simples (WebServer) que fica ouvindo:
 
