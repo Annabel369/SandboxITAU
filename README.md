@@ -1,5 +1,7 @@
 🛠️ Tutorial de Configuração: API Pix Itaú (mTLS)
 1. Preparação do Ambiente Linux
+2. <img width="734" height="408" alt="Screenshot-2026-01-16-04:27:25" src="https://github.com/user-attachments/assets/e18417a0-0d4e-43e4-97cf-acff9930a199" />
+
 
 Primeiro, instalamos as ferramentas de sistema necessárias para lidar com a YubiKey e criptografia.
 Bash
